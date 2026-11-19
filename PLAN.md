@@ -18,6 +18,8 @@ Based on [README.md](README.md). PicBrawlers is a TCG-style game: players turn p
 | Platforms | **iPhone only** for now |
 | Backend | **Supabase** in the EU region |
 | Language | **German only.** UI and AI-generated texts are in German; code and identifiers are in English |
+| App architecture | **MVVM**, developed **test-first** |
+| Quality bar | Every screen has empty, loading and error states. Errors explain what happened, why, and what to do. Haptics for meaningful moments, App Intents for the main actions, full accessibility support. Design follows the apple-design skill. Details in [CLAUDE.md](CLAUDE.md) |
 
 ---
 
@@ -63,11 +65,16 @@ The AI chooses an attack/special *name and description* (in German) plus an `eff
 ## 2. Architecture
 
 ```
-iOS app (SwiftUI + SwiftData, iPhone)
- ├─ Features: Collection · Card Creator · Friends · Fight · Trade · Profile
+iOS app (SwiftUI + SwiftData, iPhone, MVVM)
+ ├─ Features/<Feature>/: View + @Observable ViewModel
+ │    Collection · Card Creator · Friends · Fight · Trade · Profile
+ ├─ Intents/: AppEntities, App Intents, App Shortcuts (Siri, Shortcuts, Spotlight)
+ ├─ Shared/UI: button style, card view, empty/loading/error views
+ ├─ Services/ (behind protocols, faked in tests):
+ │    repositories (SwiftData), API client (supabase-swift),
+ │    card generation, haptics
  ├─ GameEngine (pure Swift package, no UI, fully unit-tested)
- ├─ Local store (SwiftData): cached cards, images, in-progress fights
- └─ API client (supabase-swift)
+ └─ Local store (SwiftData): cached cards, images, in-progress fights
           │  HTTPS
 Supabase (EU region)
  ├─ Auth: Sign in with Apple
@@ -92,22 +99,33 @@ Supabase (EU region)
 - [ ] Add `.DS_Store` to `.gitignore`.
 - [ ] Limit the target to iPhone (`TARGETED_DEVICE_FAMILY = 1`, removing iPad and visionOS).
 - [ ] Remove the template `Item` model and list UI.
-- [ ] Set up the folder structure (`Features/`, `GameEngine/`, `Models/`, `Services/`) and a German String Catalog.
+- [ ] Set up the MVVM folder structure (`Features/`, `GameEngine/`, `Intents/`, `Models/`, `Services/`, `Shared/`) and a German String Catalog.
+- [ ] Switch both test targets to the TDD setup: Swift Testing for unit tests, XCUITest with `performAccessibilityAudit()` for UI tests.
+- [ ] Shared building blocks, each test-first:
+  - `ViewState<Value>` with empty/loading/loaded/failed
+  - `AppError: LocalizedError` with German description, reason and suggestion
+  - empty, loading and error views
+  - `HapticsService`
+  - a press-down `ButtonStyle` and spring presets
 
 ### Phase 1 – Card creation, offline MVP
 - [ ] `Card` SwiftData model + `Category` enum + `SpecialEffect` enum
 - [ ] Card creator flow: pick photo → crop → enter name → choose category → "generieren"
 - [ ] Local stat roll per category range
 - [ ] **Stub AI** that picks a random attack/special/weakness from the README lists
-- [ ] Card view (front design: image, name, category badge, HP/DMG, attack, special, weaknesses)
-- [ ] Collection screen (grid, detail, delete)
+- [ ] Card view (front design: image, name, category badge, HP/DMG, attack, special, weaknesses), readable as one VoiceOver element and working at large Dynamic Type sizes
+- [ ] Collection screen (grid, detail opening from its card, delete with confirmation)
+- [ ] Empty collection state, staged loading while generating, clear errors (photo can't be loaded, generation failed)
+- [ ] App Intents: `CardEntity` + Spotlight indexing, `OpenCardIntent`, `ShowCollectionIntent`, `CreateCardIntent`, App Shortcuts with German phrases
 
 ### Phase 2 – Fight engine, local
 - [ ] `GameEngine` package: state, the "2 cards act per turn" rule, turn resolution, win check, crumple/iron, stake result
 - [ ] Support effects (heal / shield / buff), Tank taunt, DD burst/DoT
 - [ ] Unit tests for every rule (Swift Testing)
 - [ ] Fight UI in **pass-and-play mode** on one phone (only for development and playtesting, since there is no bot mode)
-- [ ] Crumple / iron animations
+- [ ] Crumple / iron animations, with cross-fade variants for Reduce Motion
+- [ ] Haptics for selection, hits, crumpling, healing, win and loss, on the same frame as the animation
+- [ ] VoiceOver: fight actions as accessibility actions, with announcements for damage and knockouts
 
 ### Phase 3 – Supabase + real AI
 - [ ] Supabase project (EU region), Sign in with Apple, user profile
@@ -121,6 +139,7 @@ Supabase (EU region)
 - [ ] Server-validated turns (async turn-based first, real-time later)
 - [ ] `finish-match`: atomic transfer of the staked card to the winner
 - [ ] Push notifications ("Du bist dran", "Neue Herausforderung")
+- [ ] `ChallengeFriendIntent`; empty states for no friends and no fights
 
 ### Phase 5 – Trading
 - [ ] Trade offers between friends, accept/decline, atomic ownership transfer
@@ -128,7 +147,9 @@ Supabase (EU region)
 - [ ] Trade and fight history
 
 ### Phase 6 – Polish & release
-- [ ] Sounds, haptics, onboarding/tutorial (in German)
+- [ ] Sounds (fired together with haptics), onboarding/tutorial (in German)
+- [ ] Widgets (e.g. "Karte des Tages", open challenges) built on the existing App Intents
+- [ ] Full accessibility pass: VoiceOver, Dynamic Type, Reduce Motion/Transparency, Increase Contrast
 - [ ] Balance pass based on playtest data
 - [ ] App Store compliance (see risks), privacy policy, TestFlight
 
