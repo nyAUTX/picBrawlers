@@ -43,10 +43,11 @@ enum ViewState<Value> {
 
 ## Errors
 
-- All errors the user can see are mapped to `AppError: LocalizedError`, and each case provides all three texts in German:
-  - `errorDescription`: what happened ("Karte konnte nicht erstellt werden")
-  - `failureReason`: why ("Keine Internetverbindung")
-  - `recoverySuggestion`: what to do ("Prüfe deine Verbindung und versuch es noch einmal")
+- All errors the user can see are an `AppError` (`Shared/Errors/AppError.swift`), a `LocalizedError` with three German texts:
+  - `errorDescription`: what happened. This is the `title` the caller passes, e.g. `AppError(title: String(localized: "Karte konnte nicht erstellt werden"), error: error)`.
+  - `failureReason`: why ("Keine Internetverbindung."), derived from the `Cause`.
+  - `recoverySuggestion`: what to do ("Prüfe deine Verbindung und versuch es noch einmal."), also derived from the `Cause`.
+- `AppError(title:error:)` maps thrown errors (e.g. `URLError`) to a `Cause`. New causes need a German reason and suggestion, plus tests.
 - Errors offer an action wherever one exists (retry, open Settings, choose another photo).
 - Show errors where they happened: inline for form fields, in the screen's `failed` state for loading. Use an alert only when there's no better place.
 - Never show raw error messages, status codes or stack traces to the player. Log the underlying error with `Logger` (OSLog).
@@ -92,6 +93,8 @@ Intents call the same ViewModels/services as the UI; they never duplicate logic.
 - **Color:** never carry information by color alone. Categories always show an icon and a label as well.
 - **Settings:** respect Reduce Motion (crumple/iron become cross-fades), Reduce Transparency (solid backgrounds instead of materials) and Increase Contrast.
 - **Hit targets:** at least 44×44 pt.
+- **Full-screen states:** wrap them in `.scrollableWhenTooTall()` so they scroll instead of clipping at large text sizes (`EmptyStateView` and `ErrorView` already do).
+- **Long German words:** compound words can't wrap. Keep titles short; the accessibility audit flags long ones (e.g. "Tauschangebote") as clipped.
 - **Checks:** check every new screen with Accessibility Inspector, in addition to the automated audit in the UI tests.
 
 ## Design & motion

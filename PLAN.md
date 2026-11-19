@@ -94,14 +94,14 @@ Supabase (EU region)
 
 ## 3. Roadmap
 
-### Phase 0 – Foundations
-- [ ] Fix the repo layout: `picBrawlers/` contains its **own nested `.git`** (Xcode's template commit). Keep one repository, most likely the root one.
-- [ ] Add `.DS_Store` to `.gitignore`.
-- [ ] Limit the target to iPhone (`TARGETED_DEVICE_FAMILY = 1`, removing iPad and visionOS).
-- [ ] Remove the template `Item` model and list UI.
-- [ ] Set up the MVVM folder structure (`Features/`, `GameEngine/`, `Intents/`, `Models/`, `Services/`, `Shared/`) and a German String Catalog.
-- [ ] Switch both test targets to the TDD setup: Swift Testing for unit tests, XCUITest with `performAccessibilityAudit()` for UI tests.
-- [ ] Shared building blocks, each test-first:
+### Phase 0 – Foundations ✅
+- [x] Fix the repo layout: `picBrawlers/` contains its **own nested `.git`** (Xcode's template commit). Keep one repository, most likely the root one.
+- [x] Add `.DS_Store` to `.gitignore`.
+- [x] Limit the target to iPhone (`TARGETED_DEVICE_FAMILY = 1`, removing iPad and visionOS).
+- [x] Remove the template `Item` model and list UI.
+- [x] Set up the MVVM folder structure (`App/`, `Features/`, `Resources/`, `Services/`, `Shared/`) and a German String Catalog. `GameEngine/`, `Intents/` and `Models/` are added with their first code in Phase 1/2.
+- [x] Switch both test targets to the TDD setup: Swift Testing for unit tests, XCUITest with `performAccessibilityAudit()` for UI tests.
+- [x] Shared building blocks, each test-first:
   - `ViewState<Value>` with empty/loading/loaded/failed
   - `AppError: LocalizedError` with German description, reason and suggestion
   - empty, loading and error views
