@@ -29,9 +29,9 @@ Den Namen und die Beschreibung schreibt die KI, die Zahlen legt das Spiel fest. 
 
 ### Kämpfen
 
-- Du forderst einen Freund heraus. Jeder bringt 3 Karten mit.
+- Du forderst einen Freund über Game Center heraus oder jemanden in deiner Nähe. Jeder bringt 3 Karten mit.
 - Jeder setzt eine seiner 3 Karten ein. Beide sehen die Einsätze und bestätigen sie, bevor es losgeht.
-- Pro Zug handeln 2 deiner Karten, jede mit ihrem Angriff oder ihrer Spezialfähigkeit.
+- Pro Zug handeln 2 deiner Karten, jede mit ihrem Angriff oder ihrer Spezialfähigkeit. Für einen Zug hast du 30 Sekunden.
 - Eine Karte ohne Lebenspunkte ist zerknittert und scheidet aus. Wer alle 3 gegnerischen Karten zerknittert hat, gewinnt.
 - Nach dem Kampf werden alle Karten wieder gebügelt. Der Gewinner bekommt die eingesetzte Karte des Verlierers.
 
@@ -41,13 +41,14 @@ Du kannst Karten mit Freunden tauschen. Ein Tausch gilt erst, wenn beide zustimm
 
 ### Stand
 
-PicBrawlers ist am Anfang der Entwicklung. Im Projekt steckt bisher nur die Xcode-Vorlage, noch kein Spielcode. Der Fahrplan, die getroffenen Entscheidungen und die offenen Fragen stehen in [PLAN.md](PLAN.md).
+PicBrawlers ist am Anfang der Entwicklung. Die Grundlagen stehen (Projektstruktur, Fehler- und Ladezustände, Haptik, Tests), Spielcode gibt es noch keinen. Der Fahrplan, die getroffenen Entscheidungen und die offenen Fragen stehen in [PLAN.md](PLAN.md).
 
 ### Technik
 
 - iOS-App mit SwiftUI und SwiftData, zunächst nur für das iPhone
-- Backend mit Supabase (geplant): Anmeldung mit Apple, Datenbank, Bildspeicher, Server-Funktionen
-- KI-Generierung über ein Vision-Modell, das nur der Server aufruft
+- Kein eigener Server: Die Karten liegen auf dem iPhone und werden in iCloud gesichert
+- Kämpfe mit Freunden aus der Ferne über Game Center, vor Ort über eine direkte Verbindung zwischen den iPhones (WLAN und Bluetooth, ohne Internet)
+- KI-Generierung direkt auf dem iPhone, ohne Internet. Ältere iPhones ohne Apple Intelligence nutzen kuratierte Angriffslisten
 - App-Sprache: Deutsch
 
 ### Entwicklung
@@ -91,9 +92,9 @@ The AI writes the names and descriptions; the game sets the numbers. That keeps 
 
 ### Fighting
 
-- You challenge a friend. Each player brings 3 cards.
+- You challenge a friend over Game Center, or someone nearby. Each player brings 3 cards.
 - Each player puts one of their 3 cards at stake. Both see the stakes and confirm them before the fight starts.
-- On each turn, 2 of your cards act, each using its attack or its special ability.
+- On each turn, 2 of your cards act, each using its attack or its special ability. You have 30 seconds per turn.
 - A card with no health left is crumpled and out. Whoever crumples all 3 of the opponent's cards wins.
 - After the fight all cards are ironed flat again. The winner gets the loser's staked card.
 
@@ -103,13 +104,14 @@ You can trade cards with friends. A trade only goes through once both players ac
 
 ### Status
 
-PicBrawlers is in early development. The project only contains the Xcode template so far, with no game code yet. The roadmap, the decisions made so far and the open questions are in [PLAN.md](PLAN.md).
+PicBrawlers is in early development. The foundations are in place (project structure, error and loading states, haptics, tests), but there is no game code yet. The roadmap, the decisions made so far and the open questions are in [PLAN.md](PLAN.md).
 
 ### Tech
 
 - iOS app built with SwiftUI and SwiftData, iPhone only at first
-- Supabase backend (planned): Sign in with Apple, database, image storage, server functions
-- AI generation through a vision model that only the server calls
+- No server of our own: cards live on the iPhone, with iCloud as a backup
+- Fights with friends over Game Center remotely, or over a direct connection between the iPhones in person (Wi-Fi and Bluetooth, no internet needed)
+- AI generation runs on the iPhone, without internet. Older iPhones without Apple Intelligence use curated attack lists
 - App language: German
 
 ### Development
