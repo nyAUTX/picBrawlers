@@ -23,6 +23,17 @@ struct RootView: View {
                         message: "Bald forderst du hier Freunde zu einem Kampf heraus."
                     )
                     .navigationTitle("Kämpfe")
+                    #if DEBUG
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            NavigationLink {
+                                LineupView()
+                            } label: {
+                                Label("Effekte", systemImage: "wand.and.sparkles")
+                            }
+                        }
+                    }
+                    #endif
                 }
             }
 
