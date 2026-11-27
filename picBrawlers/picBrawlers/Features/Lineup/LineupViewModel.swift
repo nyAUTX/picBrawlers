@@ -9,7 +9,7 @@ typealias Sleeper = @Sendable (Duration) async throws -> Void
 @Observable
 final class LineupViewModel {
     struct Card: Identifiable, Equatable {
-        let content: FighterCardContent
+        let content: FighterCard
         var isCrumpled = false
         let crumpleSeed: Float
         var id: UUID { content.id }
@@ -39,7 +39,7 @@ final class LineupViewModel {
     private let now: () -> Date
 
     init(
-        cards: [FighterCardContent] = FighterCardContent.demoLineup,
+        cards: [FighterCard] = FighterCard.demoLineup,
         announcer: any AccessibilityAnnouncing = SystemAccessibilityAnnouncer(),
         sleep: @escaping Sleeper = { try await Task.sleep(for: $0) },
         now: @escaping () -> Date = Date.init

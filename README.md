@@ -41,7 +41,7 @@ Du kannst Karten mit Freunden tauschen. Ein Tausch gilt erst, wenn beide zustimm
 
 ### Stand
 
-PicBrawlers ist am Anfang der Entwicklung. Die Grundlagen stehen (Projektstruktur, Fehler- und Ladezustände, Haptik, Tests), Spielcode gibt es noch keinen. Der Fahrplan, die getroffenen Entscheidungen und die offenen Fragen stehen in [PLAN.md](PLAN.md).
+PicBrawlers ist am Anfang der Entwicklung. Du kannst schon aus einem Foto eine Karte machen, deine Sammlung durchblättern und Karten über Siri, Kurzbefehle und Spotlight öffnen. Angriffe und Schwächen stammen noch aus festen Listen, Kämpfe gibt es noch nicht. Der Fahrplan, die getroffenen Entscheidungen und die offenen Fragen stehen in [PLAN.md](PLAN.md).
 
 ### Technik
 
@@ -104,7 +104,7 @@ You can trade cards with friends. A trade only goes through once both players ac
 
 ### Status
 
-PicBrawlers is in early development. The foundations are in place (project structure, error and loading states, haptics, tests), but there is no game code yet. The roadmap, the decisions made so far and the open questions are in [PLAN.md](PLAN.md).
+PicBrawlers is in early development. You can already turn a photo into a card, browse your collection and open cards from Siri, Shortcuts and Spotlight. Attacks and weaknesses still come from fixed lists, and there are no fights yet. The roadmap, the decisions made so far and the open questions are in [PLAN.md](PLAN.md).
 
 ### Tech
 

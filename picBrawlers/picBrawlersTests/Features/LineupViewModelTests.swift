@@ -23,7 +23,7 @@ struct LineupViewModelTests {
     private func makeViewModel(sleep: Sleeper? = nil) -> LineupViewModel {
         let recorder = recorder
         return LineupViewModel(
-            cards: FighterCardContent.demoLineup,
+            cards: FighterCard.demoLineup,
             announcer: announcer,
             sleep: sleep ?? { duration in await recorder.record(duration) },
             now: { Date(timeIntervalSince1970: 0) }
@@ -148,16 +148,24 @@ struct LineupViewModelTests {
     }
 }
 
-@Suite("Fighter card content")
-struct FighterCardContentTests {
+@Suite("Fighter card accessibility")
+struct FighterCardAccessibilityTests {
     @Test func voiceOverReadsTheWholeCardAsOneSentence() {
-        let oma = FighterCardContent.demoLineup[0]
-        #expect(oma.accessibilityLabel(isCrumpled: false) == "Oma Gerti, Tank, 150 Leben, 15 Schaden, Angriff: Gulaschkanone")
+        let oma = FighterCard.demoLineup[0]
+        #expect(oma.accessibilityLabel(isCrumpled: false)
+            == "Oma Gerti, Tank, 150 Leben, 15 Schaden, Angriff: Gulaschkanone, Spezialfähigkeit: Kittelschürze")
     }
 
     @Test func aCrumpledCardSaysSo() {
-        let bello = FighterCardContent.demoLineup[2]
-        #expect(bello.accessibilityLabel(isCrumpled: true) == "Bello, Support, 110 Leben, 20 Schaden, Spezialfähigkeit: Stoßlüften, zerknittert")
+        let bello = FighterCard.demoLineup[2]
+        #expect(bello.accessibilityLabel(isCrumpled: true)
+            == "Bello, Support, 110 Leben, 20 Schaden, Angriff: Kampfhund, Spezialfähigkeit: Stoßlüften, zerknittert")
+    }
+
+    @Test func thePhotoDescriptionIsReadWhenThereIsOne() {
+        var oma = FighterCard.demoLineup[0]
+        oma.photoDescription = "Frau mit Kochlöffel"
+        #expect(oma.accessibilityLabel(isCrumpled: false).hasSuffix("Spezialfähigkeit: Kittelschürze, Foto: Frau mit Kochlöffel"))
     }
 
     @Test(arguments: [(CardCategory.tank, "Tank"), (.damageDealer, "Damage Dealer"), (.support, "Support")])

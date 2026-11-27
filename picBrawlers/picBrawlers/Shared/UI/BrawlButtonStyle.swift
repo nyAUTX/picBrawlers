@@ -14,6 +14,7 @@ struct BrawlButtonStyle: ButtonStyle {
     var kind: Kind = .plain
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.isEnabled) private var isEnabled
 
     func makeBody(configuration: Configuration) -> some View {
         let pressed = configuration.isPressed && !reduceMotion
@@ -21,13 +22,14 @@ struct BrawlButtonStyle: ButtonStyle {
         configuration.label
             .font(.headline.bold())
             .multilineTextAlignment(.center)
-            .foregroundStyle(kind == .plain ? Color.ink : Color.onFill)
+            .foregroundStyle(foreground)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .frame(minWidth: 44, minHeight: 44)
             .background(fill, in: shape)
             .overlay(shape.strokeBorder(Color.ink, lineWidth: 3))
-            .background(shape.fill(Color.shadowInk).offset(x: pressed ? 1 : 4, y: pressed ? 1 : 4))
+            // A disabled button lies flat on the paper: no shadow to push into.
+            .background(shape.fill(Color.shadowInk).offset(x: pressed ? 1 : 4, y: pressed ? 1 : 4).opacity(isEnabled ? 1 : 0))
             .offset(x: pressed ? 3 : 0, y: pressed ? 3 : 0)
             .scaleEffect(PressFeedback.scale(isPressed: configuration.isPressed, reduceMotion: reduceMotion))
             .opacity(PressFeedback.opacity(isPressed: configuration.isPressed, reduceMotion: reduceMotion))
@@ -35,8 +37,15 @@ struct BrawlButtonStyle: ButtonStyle {
             .contentShape(shape)
     }
 
+    private var foreground: Color {
+        if !isEnabled { return .inkMuted }
+        return kind == .plain ? .ink : .onFill
+    }
+
+    /// Disabled buttons use `paper-sunken`, as the design system says.
     private var fill: Color {
-        switch kind {
+        guard isEnabled else { return .paperSunken }
+        return switch kind {
         case .primary: .brawl
         case .volt: .volt
         case .plain: .paperRaised

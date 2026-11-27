@@ -1,21 +1,17 @@
 import SwiftUI
 
-/// The app's tab bar. Each tab shows an empty state until its feature is built.
+/// The app's tab bar. Fights and trades show an empty state until their features are built.
 struct RootView: View {
+    @Environment(AppEnvironment.self) private var environment
+
     var body: some View {
-        TabView {
-            Tab("Sammlung", systemImage: "rectangle.stack") {
-                NavigationStack {
-                    EmptyStateView(
-                        title: "Noch keine Karten",
-                        systemImage: "photo.on.rectangle.angled",
-                        message: "Bald machst du hier aus Fotos deiner Galerie Kämpferkarten."
-                    )
-                    .navigationTitle("Sammlung")
-                }
+        @Bindable var router = environment.router
+        TabView(selection: $router.selectedTab) {
+            Tab("Sammlung", systemImage: "rectangle.stack.fill", value: AppRouter.Tab.collection) {
+                CollectionView(viewModel: environment.makeCollectionViewModel())
             }
 
-            Tab("Kämpfe", systemImage: "figure.boxing") {
+            Tab("Kämpfe", systemImage: "figure.boxing", value: AppRouter.Tab.fights) {
                 NavigationStack {
                     EmptyStateView(
                         title: "Noch keine Kämpfe",
@@ -37,7 +33,7 @@ struct RootView: View {
                 }
             }
 
-            Tab("Tauschen", systemImage: "arrow.left.arrow.right") {
+            Tab("Tauschen", systemImage: "arrow.left.arrow.right", value: AppRouter.Tab.trades) {
                 NavigationStack {
                     EmptyStateView(
                         title: "Noch kein Tausch",
@@ -53,4 +49,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
+        .environment(AppEnvironment.launch(arguments: ["-ui-testing"]))
 }

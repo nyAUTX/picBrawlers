@@ -8,6 +8,8 @@ nonisolated struct AppError: LocalizedError, Equatable, Sendable {
         case offline
         case timedOut
         case serverUnavailable
+        /// The picked photo can't be opened (unknown format, damaged, or not downloaded from iCloud).
+        case photoUnreadable
         case unexpected
     }
 
@@ -35,6 +37,7 @@ nonisolated struct AppError: LocalizedError, Equatable, Sendable {
         case .offline: String(localized: "Keine Internetverbindung.")
         case .timedOut: String(localized: "Der Server hat zu lange nicht geantwortet.")
         case .serverUnavailable: String(localized: "Der Server ist gerade nicht erreichbar.")
+        case .photoUnreadable: String(localized: "Das Foto lässt sich nicht öffnen.")
         case .unexpected: String(localized: "Etwas ist unerwartet schiefgegangen.")
         }
     }
@@ -44,6 +47,7 @@ nonisolated struct AppError: LocalizedError, Equatable, Sendable {
         case .offline: String(localized: "Prüfe deine Verbindung und versuch es noch einmal.")
         case .timedOut: String(localized: "Versuch es in ein paar Sekunden noch einmal.")
         case .serverUnavailable: String(localized: "Versuch es in ein paar Minuten noch einmal.")
+        case .photoUnreadable: String(localized: "Wähl ein anderes Foto aus.")
         case .unexpected: String(localized: "Versuch es noch einmal. Wenn es wieder passiert, starte die App neu.")
         }
     }
@@ -52,6 +56,7 @@ nonisolated struct AppError: LocalizedError, Equatable, Sendable {
 
     private static func cause(of error: any Error) -> Cause {
         if let appError = error as? AppError { return appError.cause }
+        if error is PhotoProcessingError { return .photoUnreadable }
         guard let urlError = error as? URLError else { return .unexpected }
         switch urlError.code {
         case .notConnectedToInternet, .networkConnectionLost, .dataNotAllowed:

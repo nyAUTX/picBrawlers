@@ -7,7 +7,7 @@ struct ErrorView: View {
 
     var body: some View {
         ContentUnavailableView {
-            Label(error.title, systemImage: "exclamationmark.triangle")
+            Label(error.title, systemImage: "exclamationmark.triangle.fill")
         } description: {
             Text([error.failureReason, error.recoverySuggestion].compactMap(\.self).joined(separator: " "))
         } actions: {
