@@ -2,7 +2,7 @@
 
 Based on [README.md](README.md). PicBrawlers is a TCG-style game: players turn photos from their gallery into fighter cards, fight 3-vs-3 battles against friends and trade cards with each other.
 
-**Current state:** Phases 0 and 1 are done. Players can turn a photo into a card, browse their collection, open and delete cards, and reach all of it from Siri, Shortcuts and Spotlight. Card texts still come from curated lists, and there are no fights yet.
+**Current state:** Phases 0 and 1 are done. Players can turn a photo into a card, browse their collection, open and delete cards, and reach all of it from Siri, Shortcuts and Spotlight. Card texts still come from curated lists. Phase 2 has started: the fight engine (rules, effects, state hash) is in place and tested, but there is no fight UI yet.
 
 ---
 
@@ -156,10 +156,10 @@ Nearby play needs Wi-Fi and Bluetooth switched on, but no shared network and no 
 - [x] App Intents: `CardEntity` + Spotlight indexing, `OpenCardIntent`, `ShowCollectionIntent`, `CreateCardIntent` (takes a photo), App Shortcuts with German phrases
 
 ### Phase 2 – Fight engine, local
-- [ ] `GameEngine` package: state, the "2 cards act per turn" rule, turn resolution, win check, crumple/iron, stake result
-- [ ] Support effects (heal / shield / buff), Tank taunt, DD burst/DoT
-- [ ] Deterministic state hash, so two phones can compare their game state
-- [ ] Unit tests for every rule (Swift Testing)
+- [x] `GameEngine` rules: state, the "2 cards act per turn" rule, turn resolution, win check, crumple/iron, stake result. It lives in the app target's `GameEngine/` folder (pure Swift, `nonisolated`) rather than a separate package, like the existing card rules. Timeouts follow open question 1: a skipped turn, 3 in a row lose
+- [x] Support effects (heal / shield / buff), Tank taunt, DD burst/DoT. All numbers are in `FightRules` (first draft: heal and shield 2× damage, buff +damage on the next hit, burst 2× damage, DoT half damage for 3 turns, taunt −30 % damage, specials recharge for 1 own turn)
+- [x] Deterministic state hash, so two phones can compare their game state (SHA-256 of the sorted-key JSON; integer math only)
+- [x] Unit tests for every rule (Swift Testing)
 - [ ] Fight UI in **pass-and-play mode** on one phone, built on `MatchTransport` from the start (only for development and playtesting, since there is no bot mode)
 - [ ] 30-second turn timer with the timeout rule, a visible countdown, VoiceOver announcements as time runs out, and a haptic warning
 - [ ] Crumple / iron animations, with cross-fade variants for Reduce Motion
@@ -181,6 +181,7 @@ Nearby play needs Wi-Fi and Bluetooth switched on, but no shared network and no 
 - [ ] Stake selection and confirmation by both players; transfer of the staked card to the winner's phone
 - [ ] `ChallengeFriendIntent`; empty states for no friends, no nearby players and no fights
 - [ ] Test checklist on two real iPhones (the simulator is unreliable for nearby play)
+- [ ] win streak
 
 ### Phase 5 – Trading
 - [ ] Trade offers over Game Center and nearby play, accept/decline, both phones confirm before cards move
@@ -198,6 +199,7 @@ Nearby play needs Wi-Fi and Bluetooth switched on, but no shared network and no 
 - Elements/types with strengths and weaknesses against each other
 - Slow fights with long turns (Game Center turn-based matches), for friends who can't play at the same time
 - iPad (and maybe visionOS)
+- move cards around on a board
 
 ---
 
