@@ -35,7 +35,7 @@ struct CrumpleEffect: ViewModifier, Animatable {
                 .padding(Self.warpRoom)
                 .visualEffect { view, proxy in
                     view.distortionEffect(
-                        ShaderLibrary.crumple(.float(seed), .float(Float(amount)), .float(Float((proxy.size.width - 2 * Self.warpRoom) * 0.055))),
+                        ShaderLibrary.crumple(.float(seed), .float(Float(amount)), .float(Float(CrumpleWarp.strength(forCardWidth: proxy.size.width - 2 * Self.warpRoom)))),
                         maxSampleOffset: CGSize(width: 14, height: 14),
                         isEnabled: amount > 0.001
                     )
@@ -55,11 +55,25 @@ struct CrumpleEffect: ViewModifier, Animatable {
     }
 }
 
-/// The red ZERKNITTERT stamp on a crumpled card. Drawn outside the warp so it stays sharp.
+/// The red ZERKNITTERT stamp on a crumpled card. Drawn outside the warp so it stays sharp. Like the
+/// printed face, it is laid out at the card's reference size and scaled with the card, so it always
+/// spans about three quarters of the card's width, on a small card and on a full-width one.
+/// Place it over the card's whole frame.
 struct CrumpleStamp: View {
     var body: some View {
+        GeometryReader { proxy in
+            stamp
+                .scaleEffect(proxy.size.width / FighterCardView.referenceSize.width)
+                .position(x: proxy.size.width / 2, y: proxy.size.height * 0.44)
+        }
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+    }
+
+    private var stamp: some View {
         Text("ZERKNITTERT")
             .font(.footnote.weight(.black))
+            .dynamicTypeSize(.large)
             .fixedSize()
             .foregroundStyle(Color.dangerText)
             .padding(.horizontal, 6)
@@ -67,6 +81,5 @@ struct CrumpleStamp: View {
             .background(Color.paperRaised)
             .overlay(Rectangle().strokeBorder(Color.dangerText, lineWidth: 3))
             .rotationEffect(.degrees(-12))
-            .accessibilityHidden(true)
     }
 }

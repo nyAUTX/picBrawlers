@@ -61,3 +61,20 @@ struct CreasePatternTests {
         #expect(pattern.ridges.count == 3)
     }
 }
+
+@Suite("Crumple warp")
+struct CrumpleWarpTests {
+    @Test func smallCardsWarpByAShareOfTheirWidth() {
+        #expect(abs(CrumpleWarp.strength(forCardWidth: 110) - 6.05) < 0.001)
+    }
+
+    @Test func fullWidthCardsStayLegible() {
+        // One card per row on an iPhone is 370 pt wide; 5.5 % would be over 20 pt and garble the text.
+        #expect(CrumpleWarp.strength(forCardWidth: 370) == CrumpleWarp.maximumStrength)
+        #expect(CrumpleWarp.maximumStrength == 10)
+    }
+
+    @Test func aFlatCardDoesNotWarp() {
+        #expect(CrumpleWarp.strength(forCardWidth: 0) == 0)
+    }
+}
