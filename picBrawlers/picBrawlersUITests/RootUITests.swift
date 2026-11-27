@@ -9,7 +9,7 @@ final class RootUITests: XCTestCase {
 
     @MainActor
     func testAllTabsShowTheirEmptyState() throws {
-        let app = XCUIApplication()
+        let app = XCUIApplication.forUITesting()
         app.launch()
 
         for tab in tabs {
@@ -21,8 +21,17 @@ final class RootUITests: XCTestCase {
     }
 
     @MainActor
+    func testAnEmptyCollectionOffersToCreateACard() throws {
+        let app = XCUIApplication.forUITesting()
+        app.launch()
+        XCTAssertTrue(app.staticTexts["Noch keine Karten"].waitForExistence(timeout: 5))
+        app.buttons["Karte erstellen"].firstMatch.tap()
+        XCTAssertTrue(app.navigationBars["Neue Karte"].waitForExistence(timeout: 2))
+    }
+
+    @MainActor
     func testEveryTabPassesTheAccessibilityAudit() throws {
-        let app = XCUIApplication()
+        let app = XCUIApplication.forUITesting()
         app.launch()
 
         for tab in tabs {
@@ -38,7 +47,7 @@ final class RootUITests: XCTestCase {
     @MainActor
     func testLaunchPerformance() throws {
         measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
+            XCUIApplication.forUITesting().launch()
         }
     }
 }

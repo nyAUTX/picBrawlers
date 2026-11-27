@@ -2,7 +2,7 @@
 
 Based on [README.md](README.md). PicBrawlers is a TCG-style game: players turn photos from their gallery into fighter cards, fight 3-vs-3 battles against friends and trade cards with each other.
 
-**Current state:** Phase 0 is done. The iPhone-only project, the MVVM structure and the shared building blocks (screen states, errors, haptics, motion) are in place. There is no game code yet.
+**Current state:** Phases 0 and 1 are done. Players can turn a photo into a card, browse their collection, open and delete cards, and reach all of it from Siri, Shortcuts and Spotlight. Card texts still come from curated lists, and there are no fights yet.
 
 ---
 
@@ -145,15 +145,15 @@ Nearby play needs Wi-Fi and Bluetooth switched on, but no shared network and no 
   - `HapticsService`
   - a press-down `ButtonStyle` and spring presets
 
-### Phase 1 – Card creation, offline MVP
-- [ ] `Card` SwiftData model + `Category` enum + `SpecialEffect` enum. Design it for iCloud sync from the start: every property optional or with a default, and no unique constraints (SwiftData's CloudKit sync requires this)
-- [ ] Card creator flow: pick photo → crop → enter name → choose category → "generieren"
-- [ ] Local stat roll per category range
-- [ ] **Stub AI** that picks a random attack/special/weakness from the README lists
-- [ ] Card view (front design: image, name, category badge, HP/DMG, attack, special, weaknesses), readable as one VoiceOver element and working at large Dynamic Type sizes
-- [ ] Collection screen (grid, detail opening from its card, delete with confirmation)
-- [ ] Empty collection state, staged loading while generating, clear errors (photo can't be loaded, generation failed)
-- [ ] App Intents: `CardEntity` + Spotlight indexing, `OpenCardIntent`, `ShowCollectionIntent`, `CreateCardIntent`, App Shortcuts with German phrases
+### Phase 1 – Card creation, offline MVP ✅
+- [x] `CardRecord` SwiftData model behind `CardRepository`, plus `CardCategory` and `SpecialEffect`. Ready for iCloud sync: every property has a default, no unique constraints. The game works on the value type `FighterCard`. The `fresh`/`crumpled` condition is fight state and comes with the engine in Phase 2
+- [x] Card creator flow: pick photo → enter name (checked while typing) → choose category → "Karte erstellen". The photo is shrunk to 1200 px and filled into the card window from the center; an interactive crop step is still open
+- [x] Local stat roll per category range, with an injectable random number generator
+- [x] **Stub AI** (`StubCardGenerationService`) that picks attack, special and weaknesses from curated lists; it stays as the fallback for iPhones without Apple Intelligence
+- [x] Card view (front: photo, name, category band, HP/DMG, attack, special), readable as one VoiceOver element. Descriptions and weaknesses don't fit the printed face and are on the detail view
+- [x] Collection screen: one card per row as the design system asks (instead of a grid), detail opening from its card with a zoom, delete with confirmation from the context menu, a VoiceOver action or the detail view
+- [x] Empty collection state, named stages while generating (cancellable), clear errors (photo can't be loaded, generation or saving failed)
+- [x] App Intents: `CardEntity` + Spotlight indexing, `OpenCardIntent`, `ShowCollectionIntent`, `CreateCardIntent` (takes a photo), App Shortcuts with German phrases
 
 ### Phase 2 – Fight engine, local
 - [ ] `GameEngine` package: state, the "2 cards act per turn" rule, turn resolution, win check, crumple/iron, stake result

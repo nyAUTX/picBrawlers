@@ -8,7 +8,7 @@ final class LineupUITests: XCTestCase {
 
     @MainActor
     private func openEffects() -> XCUIApplication {
-        let app = XCUIApplication()
+        let app = XCUIApplication.forUITesting()
         app.launch()
         app.tabBars.buttons["Kämpfe"].tap()
         let effects = app.navigationBars["Kämpfe"].buttons["Effekte"]
@@ -42,22 +42,9 @@ final class LineupUITests: XCTestCase {
         try auditIgnoringCardFaces(app)
     }
 
-    /// Cards are printed objects: the face keeps its playing-card proportions and VoiceOver reads the whole
-    /// card as one sentence. The audit still inspects the text printed on the face, so three kinds of issue
-    /// are expected there and only there: a fixed text size (larger text sizes get larger cards instead),
-    /// text the card scales down to fit, and lower contrast on a crumpled card, which is meant to look knocked out.
     @MainActor
     private func auditIgnoringCardFaces(_ app: XCUIApplication) throws {
-        let cards = app.descendants(matching: .any)
-            .matching(NSPredicate(format: "label CONTAINS ' Leben, '"))
-            .allElementsBoundByIndex
-            .map { $0.frame.insetBy(dx: -24, dy: -24) }
-        XCTAssertEqual(cards.count, 3)
-        let expectedOnCardFaces: [XCUIAccessibilityAuditType] = [.dynamicType, .textClipped, .contrast]
-        try app.performAccessibilityAudit { issue in
-            guard expectedOnCardFaces.contains(issue.auditType), let element = issue.element else { return false }
-            let frame = element.frame
-            return cards.contains { $0.contains(frame) }
-        }
+        XCTAssertEqual(app.cardFaces.count, 3)
+        try app.auditIgnoringCardFaces()
     }
 }
