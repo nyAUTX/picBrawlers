@@ -5,6 +5,8 @@ nonisolated enum FightRules {
     /// How many different cards act in one turn (fewer if fewer are still standing).
     static let actionsPerTurn = 2
     static let turnDuration: Duration = .seconds(30)
+    /// For VoiceOver and Switch Control users, who need longer to move through the board.
+    static let assistedTurnDuration: Duration = .seconds(60)
     /// Timed-out turns in a row that count as a loss.
     static let maxSkippedTurnsInARow = 3
     /// Own turns a card must wait after using its special before it can use it again.

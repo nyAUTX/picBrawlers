@@ -2,7 +2,7 @@
 
 Based on [README.md](README.md). PicBrawlers is a TCG-style game: players turn photos from their gallery into fighter cards, fight 3-vs-3 battles against friends and trade cards with each other.
 
-**Current state:** Phases 0 and 1 are done. Players can turn a photo into a card, browse their collection, open and delete cards, and reach all of it from Siri, Shortcuts and Spotlight. Card texts still come from curated lists. Phase 2 has started: the fight engine (rules, effects, state hash) is in place and tested, but there is no fight UI yet.
+**Current state:** Phases 0 and 1 are done. Players can turn a photo into a card, browse their collection, open and delete cards, and reach all of it from Siri, Shortcuts and Spotlight. Card texts still come from curated lists. Phase 2 is mostly done: the fight engine is in place and tested, and debug builds have a pass-and-play test fight with fixed test teams ("Testkampf" in the Kämpfe tab). Still open: the iron animation in the fight.
 
 ---
 
@@ -160,11 +160,11 @@ Nearby play needs Wi-Fi and Bluetooth switched on, but no shared network and no 
 - [x] Support effects (heal / shield / buff), Tank taunt, DD burst/DoT. All numbers are in `FightRules` (first draft: heal and shield 2× damage, buff +damage on the next hit, burst 2× damage, DoT half damage for 3 turns, taunt −30 % damage, specials recharge for 1 own turn)
 - [x] Deterministic state hash, so two phones can compare their game state (SHA-256 of the sorted-key JSON; integer math only)
 - [x] Unit tests for every rule (Swift Testing)
-- [ ] Fight UI in **pass-and-play mode** on one phone, built on `MatchTransport` from the start (only for development and playtesting, since there is no bot mode)
-- [ ] 30-second turn timer with the timeout rule, a visible countdown, VoiceOver announcements as time runs out, and a haptic warning
-- [ ] Crumple / iron animations, with cross-fade variants for Reduce Motion
-- [ ] Haptics for selection, hits, crumpling, healing, win and loss, on the same frame as the animation
-- [ ] VoiceOver: fight actions as accessibility actions, with announcements for damage and knockouts
+- [x] Fight UI in **pass-and-play mode** on one phone, built on `MatchTransport` from the start (only for development and playtesting, since there is no bot mode). Portrait only; both actions are picked first, then play out together; a handover screen covers the board between players. `PassAndPlayTransport`, the fixed test teams and the "Testkampf" entry are compiled into debug builds only
+- [x] 30-second turn timer with the timeout rule, a visible countdown, VoiceOver announcements as time runs out, and a haptic warning. 60 seconds while VoiceOver or Switch Control runs (open question 2)
+- [ ] Crumple / iron animations, with cross-fade variants for Reduce Motion. Crumpling is done (animated on knockout, fade with Reduce Motion); "Bügeln" after the fight restores the cards but doesn't show the iron yet
+- [x] Haptics for selection, hits, crumpling, healing, win and loss, on the same frame as the animation. One haptic per turn, for the strongest event in it
+- [x] VoiceOver: fight actions as accessibility actions, with announcements for damage and knockouts
 
 ### Phase 3 – Real AI & iCloud backup
 - [ ] On-device card generation: Vision labels → Foundation Models with structured (guided) output in German, behind `CardGenerationService`. The curated lists stay as fallback for devices without Apple Intelligence

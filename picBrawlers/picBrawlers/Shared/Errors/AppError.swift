@@ -10,6 +10,8 @@ nonisolated struct AppError: LocalizedError, Equatable, Sendable {
         case serverUnavailable
         /// The picked photo can't be opened (unknown format, damaged, or not downloaded from iCloud).
         case photoUnreadable
+        /// The two phones no longer agree on the fight (a bug, or a modified app on one side).
+        case outOfSync
         case unexpected
     }
 
@@ -38,6 +40,7 @@ nonisolated struct AppError: LocalizedError, Equatable, Sendable {
         case .timedOut: String(localized: "Der Server hat zu lange nicht geantwortet.")
         case .serverUnavailable: String(localized: "Der Server ist gerade nicht erreichbar.")
         case .photoUnreadable: String(localized: "Das Foto lässt sich nicht öffnen.")
+        case .outOfSync: String(localized: "Die beiden Handys sind sich über den Kampf nicht mehr einig.")
         case .unexpected: String(localized: "Etwas ist unerwartet schiefgegangen.")
         }
     }
@@ -48,6 +51,7 @@ nonisolated struct AppError: LocalizedError, Equatable, Sendable {
         case .timedOut: String(localized: "Versuch es in ein paar Sekunden noch einmal.")
         case .serverUnavailable: String(localized: "Versuch es in ein paar Minuten noch einmal.")
         case .photoUnreadable: String(localized: "Wähl ein anderes Foto aus.")
+        case .outOfSync: String(localized: "Startet den Kampf neu. Eure Karten bleiben, wo sie sind.")
         case .unexpected: String(localized: "Versuch es noch einmal. Wenn es wieder passiert, starte die App neu.")
         }
     }

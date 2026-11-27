@@ -1,7 +1,276 @@
 {
   "sourceLanguage" : "de",
   "strings" : {
+    "„%@“ ist danach weg. Das lässt sich nicht rückgängig machen." : {
 
+    },
+    "%@" : {
+
+    },
+    "%@ ist zerknittert" : {
+
+    },
+    "%lld Karten" : {
+
+    },
+    "%lld Leben" : {
+
+    },
+    "%lld Schaden" : {
+
+    },
+    "Abbrechen" : {
+
+    },
+    "Alle Karten sind wieder glatt" : {
+
+    },
+    "Anderes Foto wählen" : {
+
+    },
+    "Angriff" : {
+
+    },
+    "Angriff wird erfunden …" : {
+
+    },
+    "Angriff: %@" : {
+
+    },
+    "Bald forderst du hier Freunde zu einem Kampf heraus." : {
+
+    },
+    "Bald tauschst du hier Karten mit Freunden." : {
+
+    },
+    "Bis zu %lld Zeichen." : {
+
+    },
+    "Bügeln" : {
+
+    },
+    "Damage Dealer" : {
+
+    },
+    "Das Foto lässt sich nicht öffnen." : {
+
+    },
+    "Deine neue Karte" : {
+
+    },
+    "Der Server hat zu lange nicht geantwortet." : {
+
+    },
+    "Der Server ist gerade nicht erreichbar." : {
+
+    },
+    "Diese Karte gibt es nicht mehr. Vielleicht wurde sie gelöscht." : {
+
+    },
+    "Effekte" : {
+
+    },
+    "Erneut versuchen" : {
+
+    },
+    "Etwas ist unerwartet schiefgegangen." : {
+
+    },
+    "Fertig" : {
+
+    },
+    "Foto" : {
+
+    },
+    "Foto auswählen" : {
+
+    },
+    "Foto konnte nicht geladen werden" : {
+
+    },
+    "Foto wird analysiert …" : {
+
+    },
+    "Foto wird geladen …" : {
+
+    },
+    "Foto: %@" : {
+
+    },
+    "Gewähltes Foto" : {
+
+    },
+    "Gib der Karte einen Namen." : {
+
+    },
+    "Großer Treffer" : {
+
+    },
+    "Heilt" : {
+
+    },
+    "Höchstens %lld Zeichen." : {
+
+    },
+    "Kämpfe" : {
+
+    },
+    "Karte" : {
+
+    },
+    "Karte erstellen" : {
+
+    },
+    "Karte konnte nicht erstellt werden" : {
+
+    },
+    "Karte konnte nicht geladen werden" : {
+
+    },
+    "Karte konnte nicht gelöscht werden" : {
+
+    },
+    "Karte löschen?" : {
+
+    },
+    "Karte nicht gefunden" : {
+
+    },
+    "Karte öffnen" : {
+
+    },
+    "Karten konnten nicht geladen werden" : {
+
+    },
+    "Kategorie" : {
+
+    },
+    "Keine Internetverbindung." : {
+
+    },
+    "Löschen" : {
+
+    },
+    "Mach aus einem Foto deine erste Kämpferkarte." : {
+
+    },
+    "Macht aus einem Foto eine neue Kämpferkarte." : {
+
+    },
+    "Mittleres Leben. Heilt, schützt oder stärkt andere Karten." : {
+
+    },
+    "Name" : {
+
+    },
+    "Name der Karte" : {
+
+    },
+    "Neue Karte" : {
+
+    },
+    "Noch kein Tausch" : {
+
+    },
+    "Noch keine Kämpfe" : {
+
+    },
+    "Noch keine Karten" : {
+
+    },
+    "Nur Fotos von Menschen, die zugestimmt haben." : {
+
+    },
+    "Nur zum Spaß, im Kampf zählen sie nicht." : {
+
+    },
+    "Öffnet eine deiner Karten in der Sammlung." : {
+
+    },
+    "OK" : {
+
+    },
+    "Prüfe deine Verbindung und versuch es noch einmal." : {
+
+    },
+    "Sammlung" : {
+
+    },
+    "Sammlung zeigen" : {
+
+    },
+    "Schaden über Zeit" : {
+
+    },
+    "Schützt" : {
+
+    },
+    "Schwächen" : {
+
+    },
+    "Spezialfähigkeit" : {
+
+    },
+    "Spezialfähigkeit: %@" : {
+
+    },
+    "Stärkt" : {
+
+    },
+    "Support" : {
+
+    },
+    "Tank" : {
+
+    },
+    "Tauschen" : {
+
+    },
+    "Treffer" : {
+
+    },
+    "Überspringen" : {
+
+    },
+    "Versuch es in ein paar Minuten noch einmal." : {
+
+    },
+    "Versuch es in ein paar Sekunden noch einmal." : {
+
+    },
+    "Versuch es noch einmal. Wenn es wieder passiert, starte die App neu." : {
+
+    },
+    "Viel Leben, wenig Schaden. Schützt sich und zieht Angriffe an." : {
+
+    },
+    "Wähl ein anderes Foto aus." : {
+
+    },
+    "Wenig Leben, viel Schaden. Teilt harte Treffer aus." : {
+
+    },
+    "Werte werden ausgewürfelt …" : {
+
+    },
+    "Wird geladen …" : {
+
+    },
+    "Zeigt alle deine Karten." : {
+
+    },
+    "zerknittert" : {
+
+    },
+    "ZERKNITTERT" : {
+
+    },
+    "Zieht Angriffe an" : {
+
+    },
+    "Zwei auf einmal" : {
+
+    }
   },
   "version" : "1.0"
 }

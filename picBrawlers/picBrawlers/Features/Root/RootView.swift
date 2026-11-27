@@ -3,6 +3,10 @@ import SwiftUI
 /// The app's tab bar. Fights and trades show an empty state until their features are built.
 struct RootView: View {
     @Environment(AppEnvironment.self) private var environment
+    #if DEBUG
+    /// A pass-and-play test fight, debug builds only.
+    @State private var testFight: FightViewModel?
+    #endif
 
     var body: some View {
         @Bindable var router = environment.router
@@ -21,6 +25,13 @@ struct RootView: View {
                     .navigationTitle("Kämpfe")
                     #if DEBUG
                     .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button {
+                                testFight = environment.makeTestFightViewModel()
+                            } label: {
+                                Label("Testkampf", systemImage: "person.2.fill")
+                            }
+                        }
                         ToolbarItem(placement: .topBarTrailing) {
                             NavigationLink {
                                 LineupView()
@@ -28,6 +39,9 @@ struct RootView: View {
                                 Label("Effekte", systemImage: "wand.and.sparkles")
                             }
                         }
+                    }
+                    .fullScreenCover(item: $testFight) { fight in
+                        FightView(viewModel: fight)
                     }
                     #endif
                 }
